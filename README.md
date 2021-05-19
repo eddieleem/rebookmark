@@ -46,6 +46,19 @@ JSON Structure
 
 ```
 
+```js
+// URL POST
+// api.rebookmark.com/post
+
+// FireStore. Function create link card
+
+{ 
+    "tags": [""],
+    "links": ["", ""]
+}
+
+```
+
 
 
 
