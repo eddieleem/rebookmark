@@ -17,8 +17,8 @@
           <IconHomeFill v-if="$route.name === 'Home'" />
           <IconHome v-else />
         </router-link>
-        <router-link to="/explore">
-          <DirectFill v-if="$route.name === 'Explore'" />
+        <router-link to="/direct">
+          <DirectFill v-if="$route.name === 'Direct'" />
           <Direct v-else />
         </router-link>
       </nav>
@@ -40,7 +40,7 @@ export default {
     IconHome,
     IconHomeFill,
     Direct,
-    DirectFill,
+    DirectFill
   }
 }
 </script>

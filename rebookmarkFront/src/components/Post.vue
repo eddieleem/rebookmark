@@ -16,12 +16,9 @@
       </div>
     </header>
 
-    <!-- media -->
+    <!-- links -->
     <div class="post-media">
-      <img
-        src="https://instagram.fist6-1.fna.fbcdn.net/v/t51.2885-15/e35/p1080x1080/117325081_976996139418353_8160924534914653455_n.jpg?_nc_ht=instagram.fist6-1.fna.fbcdn.net&_nc_cat=105&_nc_ohc=jNBXBif9ELAAX8crGcC&oh=573d873be16560be501f2567940481f4&oe=5F604180"
-        alt=""
-      />
+      <p>ppppp</p>
     </div>
 
     <!-- actions -->
