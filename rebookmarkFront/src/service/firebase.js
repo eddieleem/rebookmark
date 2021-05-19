@@ -83,10 +83,11 @@ export function testRun() {
 
     // addLink(userId, "https://google.com", ["hello", "world", "something"]);
     // addLink(userId, "https://facebook.com", ["kpop", "world", "something"]);
-    upsertLink(userId,
-      "https://google.com/" + (new Date()).getSeconds().toString(),
-      ["music", "vpop"],
-      publicCode, "lOldlLGmWw76FNfRt1kb");
+
+    // upsertLink(userId,
+    //   "https://google.com/" + (new Date()).getSeconds().toString(),
+    //   ["music", "vpop"],
+    //   publicCode, "lOldlLGmWw76FNfRt1kb");
 
     upsertLink(userId,
       "https://google.com/" + (new Date()).getSeconds().toString(),
@@ -124,7 +125,7 @@ export function testRun() {
 
 const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_$-+';
 
-function generateString(length) {
+export function generateString(length) {
     let result = ' ';
     const charactersLength = characters.length;
     for ( let i = 0; i < length; i++ ) {
@@ -134,7 +135,7 @@ function generateString(length) {
     return result;
 }
 
-function createNewUser(publicCode) {
+export function createNewUser(publicCode) {
   console.log("fn: createNewUser", "publicCode", publicCode);
   return db.collection("users")
     .add({ publicCode })
@@ -143,7 +144,7 @@ function createNewUser(publicCode) {
     });
 }
 
-function getUser(userId) {
+export function getUser(userId) {
   return db.collection("users")
     .doc(userId)
     .get()
@@ -153,7 +154,7 @@ function getUser(userId) {
 
 }
 
-function upsertLink(userId, url, tags, publicCode, id) {
+export function upsertLink(userId, url, tags, publicCode, id) {
   console.log("upsertLink", userId, url, tags, publicCode, id);
 
   return db.collection("bookmarks")
@@ -171,26 +172,28 @@ function upsertLink(userId, url, tags, publicCode, id) {
     });
 }
 
-function getLinksByUserId(userId) {
+export function getLinksByUserId(userId) {
   return db.collection("bookmarks")
     .withConverter(linkConverter)
     .where("createdBy", "==", userId)
     .get();
 }
 
-function getLinksByPublicCode(code) {
+export function getLinksByPublicCode(code) {
   return db.collection("bookmarks")
     .withConverter(linkConverter)
-    .where("publicCode", "==", code);
+    .where("publicCode", "==", code)
+    .get();
 }
 
-function getLinksByTag(tag) {
+export function getLinksByTag(tag) {
   return db.collection("bookmarks")
     .withConverter(linkConverter)
-    .where("tags", "array-contains", tag.toLowerCase());
+    .where("tags", "array-contains", tag.toLowerCase())
+    .get();
 }
 
-function removeLink(linkId) {
+export function removeLink(linkId) {
   return db.collection("bookmarks")
     .doc(linkId)
     .delete()
@@ -199,7 +202,7 @@ function removeLink(linkId) {
     });
 }
 
-async function getAllTagsByUserId(userId) {
+export async function getAllTagsByUserId(userId) {
   const allTags = [];
   const querySnapshot = await getLinksByUserId(userId);
   querySnapshot.forEach(doc => {
@@ -212,7 +215,7 @@ async function getAllTagsByUserId(userId) {
   return allTags;
 }
 
-function getRecentLinks(limit) {
+export function getRecentLinks(limit) {
   return db.collection("bookmarks")
     .withConverter(linkConverter)
     .orderBy("createdAt", "desc")
