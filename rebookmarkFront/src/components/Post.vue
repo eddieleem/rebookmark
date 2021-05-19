@@ -5,42 +5,116 @@
       <div class="header-author">
         <div class="header-author-info">
           <div>
-            <CustomText tag="b">#programming #ed</CustomText>
+            <CustomText tag="b"
+              >#programming #ed #dfs #df #asdf #adfasdf #afsdfasd</CustomText
+            >
           </div>
         </div>
       </div>
       <div class="header-more">
-        <button type="button">
+        <!-- <v-btn type="button">
           edit
-        </button>
+        </v-btn> -->
       </div>
     </header>
 
     <!-- links -->
     <div class="post-media">
-      <p>ppppp</p>
+      <v-data-table
+        :headers="tableHeaders"
+        :items="list"
+        :loading="loading"
+        item-key="id"
+        :show-select="false"
+        :disable-pagination="true"
+        :hide-default-footer="true"
+        class="page__table"
+      >
+        <template v-slot:body="props">
+          <draggable :list="props.items" tag="tbody">
+            <tr v-for="(link, index) in props.items" :key="index">
+              <td>
+                <v-icon small class="page__grab-icon">
+                  mdi-menu
+                </v-icon>
+              </td>
+              <td>{{ index + 1 }}</td>
+              <v-text-field
+                v-model="link.url"
+                solo
+                label="Add your url"
+                clearable
+              ></v-text-field>
+              <td>
+                <!-- <v-icon small @click="editLink(link.url)">
+                  mdi-pencil
+                </v-icon> -->
+                <v-icon small @click="removeAt(index)">
+                  mdi-delete
+                </v-icon>
+              </td>
+            </tr>
+          </draggable>
+        </template>
+      </v-data-table>
     </div>
 
     <!-- actions -->
     <div class="action-buttons section">
-      <button type="button">
+      <!-- <v-btn type="button">
         delete
-      </button>
-      <button class="action-save" type="button">
+      </v-btn> -->
+      <v-btn class="mx-2" fab dark color="indigo" @click="add">
+        <v-icon small class="page__grab-icon">
+          mdi-plus
+        </v-icon>
+      </v-btn>
+      <v-btn class="action-save" type="button" @click="post">
         post
-      </button>
+      </v-btn>
     </div>
-
   </div>
 </template>
 
 <script>
 import CustomText from '@/components/CustomText'
+import draggable from 'vuedraggable'
 
 export default {
   name: 'Post',
   components: {
-    CustomText
+    CustomText,
+    draggable
+  },
+  data: () => ({
+    guide: null,
+    loading: true,
+    tableHeaders: [
+      { text: '', sortable: false },
+      { text: '#', sortable: false },
+      { text: 'URL', value: 'url', sortable: false },
+      { text: 'ACTIONS', sortable: false }
+    ],
+    id: 1,
+    list: [
+      {
+        url: ''
+      }
+    ]
+  }),
+  methods: {
+    post() {
+      alert('hip hop!')
+    },
+    removeAt(idx) {
+      this.list.splice(idx, 1)
+    },
+    add() {
+      this.list.push({ url: '' })
+    }
+  },
+  created() {
+    // console.log(this.list)
   }
 }
 </script>
@@ -79,14 +153,14 @@ export default {
   height: 45px;
   display: flex;
   align-items: center;
+}
 
-  button {
-    margin-right: 16px;
-  }
+button {
+  margin-right: 16px;
+}
 
-  .action-save {
-    margin-left: auto;
-    margin-right: 0;
-  }
+.action-save {
+  margin-left: auto;
+  margin-right: 0;
 }
 </style>
