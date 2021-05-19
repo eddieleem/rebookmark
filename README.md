@@ -60,5 +60,12 @@ JSON Structure
 ```
 
 
+collectionGroup
+where
+
+indexes
+  .withConverter(cityConverter)
+
+
 
 
