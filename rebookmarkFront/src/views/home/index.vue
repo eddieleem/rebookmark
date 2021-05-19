@@ -6,7 +6,7 @@
       <br />
       <br />
 
-      <Post />
+      <Read />
 
       <br />
       <br />
@@ -25,10 +25,10 @@
 </template>
 
 <script>
-import Post from '@/components/Post'
+import Read from '@/components/Read'
 export default {
   name: 'Home',
-  components: { Post }
+  components: { Read }
 }
 </script>
 
