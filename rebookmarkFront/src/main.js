@@ -8,12 +8,7 @@ import vuetify from './plugins/vuetify'
 import { testRun } from "./service/firebase";
 testRun();
 
-import { testRun } from "./service/firebase";
-testRun();
-
 Vue.config.productionTip = false
-
-
 
 new Vue({
   router,
