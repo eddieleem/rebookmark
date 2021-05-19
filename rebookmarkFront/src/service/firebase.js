@@ -134,10 +134,6 @@ function generateString(length) {
     return result;
 }
 
-createNewUser(generateString(10))
-
-userId, publicCode
-
 function createNewUser(publicCode) {
   console.log("fn: createNewUser", "publicCode", publicCode);
   return db.collection("users")
