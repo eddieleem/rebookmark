@@ -144,6 +144,20 @@ export function createNewUser(publicCode) {
     });
 }
 
+export function createNewComment() {
+  const userID = 'ThisIsUserID'
+  const parentID = [
+    {
+      1, new Date('2020-11-11')
+    }
+  ]
+  return db.collection("comment")
+    .add({ userID, parentID })
+    .catch((error) => {
+      console.error("Error adding document: ", error);
+    });
+}
+
 export function getUser(userId) {
   return db.collection("users")
     .doc(userId)
