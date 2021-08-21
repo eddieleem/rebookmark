@@ -24,12 +24,13 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 export class Link {
-  constructor (url, tags, createdBy, createdAt, publicCode, id) {
+  constructor (url, tags, createdBy, createdAt, publicCode, cardId, id) {
       this.url = url;
       this.tags = tags;
       this.createdBy = createdBy;
       this.createdAt = createdAt;
       this.publicCode = publicCode;
+      this.cardId = cardId;
       this.id = id || undefined;
   }
   toString() {
@@ -50,13 +51,14 @@ const linkConverter = {
           url: link.url,
           tags: link.tags,
           publicCode: link.publicCode,
+          cardId: link.cardId,
           createdBy: link.createdBy,
           createdAt: link.createdAt,
       };
   },
   fromFirestore: function(snapshot, options){
       const data = snapshot.data(options);
-      return new Link(data.url, data.tags, data.createdBy, data.createdAt, data.publicCode, snapshot.id);
+      return new Link(data.url, data.tags, data.createdBy, data.createdAt, data.publicCode, data.cardId, snapshot.id);
   }
 };
 
@@ -81,18 +83,16 @@ export function testRun() {
     // console.log("newUser", doc.id);
     // const userId = doc.id;
 
-    // addLink(userId, "https://google.com", ["hello", "world", "something"]);
-    // addLink(userId, "https://facebook.com", ["kpop", "world", "something"]);
-
     // upsertLink(userId,
     //   "https://google.com/" + (new Date()).getSeconds().toString(),
     //   ["music", "vpop"],
     //   publicCode, "lOldlLGmWw76FNfRt1kb");
 
+    const cardId = generateString(5);
     upsertLink(userId,
       "https://google.com/" + (new Date()).getSeconds().toString(),
       ["music", "jpop"],
-      publicCode);
+      publicCode, cardId);
 
     getAllTagsByUserId(userId).then((data) => {
       console.log("allTags", data)
@@ -120,7 +120,6 @@ export function testRun() {
     //   })
     // });
   // });
-
 }
 
 const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_$-+';
@@ -144,6 +143,20 @@ export function createNewUser(publicCode) {
     });
 }
 
+export function createNewComment() {
+  const userID = 'ThisIsUserID'
+  const parentID = [
+    {
+      1, new Date('2020-11-11')
+    }
+  ]
+  return db.collection("comment")
+    .add({ userID, parentID })
+    .catch((error) => {
+      console.error("Error adding document: ", error);
+    });
+}
+
 export function getUser(userId) {
   return db.collection("users")
     .doc(userId)
@@ -154,13 +167,13 @@ export function getUser(userId) {
 
 }
 
-export function upsertLink(userId, url, tags, publicCode, id) {
-  console.log("upsertLink", userId, url, tags, publicCode, id);
+export function upsertLink(userId, url, tags, publicCode, cardId, id) {
+  console.log("upsertLink", userId, url, tags, publicCode, cardId, id);
 
   return db.collection("bookmarks")
     .withConverter(linkConverter)
     .doc(id || undefined)
-    .set(new Link(url, tags, userId, new Date(), publicCode, id))
+    .set(new Link(url, tags, userId, new Date(), publicCode, cardId, id))
     .then(result => {
       if (typeof id === "undefined") {
         // result.
@@ -183,6 +196,14 @@ export function getLinksByPublicCode(code) {
   return db.collection("bookmarks")
     .withConverter(linkConverter)
     .where("publicCode", "==", code)
+    .get();
+}
+
+export function getLinksByPublicCodeAndCardId(code, cardId) {
+  return db.collection("bookmarks")
+    .withConverter(linkConverter)
+    .where("publicCode", "==", code)
+    .where("cardId", "==", cardId)
     .get();
 }
 
