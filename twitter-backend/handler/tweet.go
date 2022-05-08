@@ -2,15 +2,16 @@ package handler
 
 import (
 	"errors"
-	"github.com/arman-aminian/twitter-backend/model"
-	"github.com/arman-aminian/twitter-backend/utils"
-	"github.com/labstack/echo/v4"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"io"
 	"net/http"
 	"os"
 	"sort"
 	"time"
+
+	"github.com/arman-aminian/twitter-backend/model"
+	"github.com/arman-aminian/twitter-backend/utils"
+	"github.com/labstack/echo/v4"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 // CreateTweet godoc
